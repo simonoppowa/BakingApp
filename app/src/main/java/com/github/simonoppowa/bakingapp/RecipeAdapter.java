@@ -62,6 +62,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         Picasso.with(context)
                 .load(context.getString(resId))
+                .noPlaceholder()
                 .error(R.drawable.default_recipe_image)
                 .into(holder.recipeImageView);
     }

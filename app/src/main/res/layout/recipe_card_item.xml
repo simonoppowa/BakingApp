@@ -23,13 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@color/colorPrimary"/>
+            android:src="@color/cardview_dark_background"/>
 
         <TextView
             android:id="@+id/recipe_name_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sandwich"
             android:textSize="22sp"
             android:textColor="#FFFFFF"
             android:padding="16dp"

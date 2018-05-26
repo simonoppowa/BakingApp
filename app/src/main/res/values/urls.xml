@@ -2,10 +2,10 @@
 <resources>
 
     <!--Urls to recipe images-->
-    <string name="recipe_image_url1">https://images.pexels.com/photos/9510/food-pizza-kitchen-recipe.jpg?auto=compress&amp;cs=tinysrgb&amp;h=640&amp;w=423</string>
-    <string name="recipe_image_url2">https://images.pexels.com/photos/873653/pexels-photo-873653.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
-    <string name="recipe_image_url3">https://images.pexels.com/photos/230743/pexels-photo-230743.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
-    <string name="recipe_image_url4">https://images.pexels.com/photos/846798/pexels-photo-846798.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
-    <string name="recipe_image_url5">https://images.pexels.com/photos/1005406/pexels-photo-1005406.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
+    <string name="recipe_image_url1" translatable="false">https://images.pexels.com/photos/9510/food-pizza-kitchen-recipe.jpg?auto=compress&amp;cs=tinysrgb&amp;h=640&amp;w=423</string>
+    <string name="recipe_image_url2" translatable="false">https://images.pexels.com/photos/873653/pexels-photo-873653.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
+    <string name="recipe_image_url3" translatable="false">https://images.pexels.com/photos/230743/pexels-photo-230743.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
+    <string name="recipe_image_url4" translatable="false">https://images.pexels.com/photos/846798/pexels-photo-846798.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
+    <string name="recipe_image_url5" translatable="false">https://images.pexels.com/photos/1005406/pexels-photo-1005406.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=640&amp;w=423</string>
 
 </resources>

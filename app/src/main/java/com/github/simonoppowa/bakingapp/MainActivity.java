@@ -1,10 +1,12 @@
 package com.github.simonoppowa.bakingapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,8 +18,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.simonoppowa.bakingapp.model.Recipe;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
                 mRecipeList = Arrays.asList(
                         gson.fromJson(response, Recipe[].class)
                 );
-                Timber.d(String.valueOf(mRecipeList.size()));
 
                 mRecipeAdapter.setRecipeList(mRecipeList);
             }
@@ -83,8 +82,16 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO handle error case
-                Timber.d(error.getMessage());
+                //show errorSnackbar
+                Snackbar errorSnackbar = Snackbar.make(mRecipeRecyclerView, getString(R.string.no_connection_error_messsage), Snackbar.LENGTH_INDEFINITE);
+                errorSnackbar.setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fetchRecipeList();
+                    }
+                })
+                        .setActionTextColor(Color.RED)
+                        .show();
             }
         });
 
