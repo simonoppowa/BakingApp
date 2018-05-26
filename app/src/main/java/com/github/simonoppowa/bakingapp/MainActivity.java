@@ -1,5 +1,6 @@
 package com.github.simonoppowa.bakingapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -29,12 +30,13 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener{
 
+    public static final String recipeURLString = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    public static final String RECIPE_KEY = "recipe";
+
     @BindView(R.id.recipe_card_recyclerView)
     RecyclerView mRecipeRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private RecipeAdapter mRecipeAdapter;
-
-    public static final String recipeURLString = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     public static List<Recipe> mRecipeList;
 
@@ -102,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Toast.makeText(this, "Clicked Position: " + clickedItemIndex, Toast.LENGTH_SHORT).show();
+
+        //start RecipeActivity
+        Intent recipeIntent = new Intent(this, RecipeActivity.class);
+        recipeIntent.putExtra(RECIPE_KEY, mRecipeList.get(clickedItemIndex));
+        startActivity(recipeIntent);
     }
 }

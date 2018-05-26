@@ -1,8 +1,13 @@
 package com.github.simonoppowa.bakingapp.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Recipe {
+import java.util.Arrays;
+
+public class Recipe implements Parcelable{
 
     private int id;
     private String name;
@@ -19,6 +24,25 @@ public class Recipe {
         this.recipeSteps = recipeSteps;
         this.servings = servings;
         this.imagePath = imagePath;
+    }
+
+    //Parcelable constructor
+    private Recipe(Parcel input) {
+        id = input.readInt();
+        name = input.readString();
+
+        Parcelable[] ingredientsParcelableArray = input.readParcelableArray(Ingredient.class.getClassLoader());
+        if(ingredientsParcelableArray != null) {
+            ingredients = Arrays.copyOf(ingredientsParcelableArray, ingredientsParcelableArray.length, Ingredient[].class);
+        }
+
+        Parcelable[] recipeStepsParcelableArray = input.readParcelableArray(RecipeStep.class.getClassLoader());
+        if(recipeStepsParcelableArray != null) {
+            recipeSteps = Arrays.copyOf(recipeStepsParcelableArray, recipeStepsParcelableArray.length, RecipeStep[].class);
+        }
+
+        servings = input.readInt();
+        imagePath = input.readString();
     }
 
     public int getId() {
@@ -68,4 +92,33 @@ public class Recipe {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeParcelableArray(ingredients, 0);
+        parcel.writeParcelableArray(recipeSteps, 0);
+        parcel.writeInt(servings);
+        parcel.writeString(imagePath);
+    }
+
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+
+        @Override
+        public Recipe createFromParcel(Parcel parcel) {
+            return new Recipe(parcel);
+        }
+
+        @Override
+        public Recipe[] newArray(int i) {
+            return new Recipe[i];
+        }
+    };
+
 }
