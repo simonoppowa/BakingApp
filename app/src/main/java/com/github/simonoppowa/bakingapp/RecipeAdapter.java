@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
@@ -79,15 +80,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-
-
-            //TODO set onClickListener
-            //recipeImageView.setOnClickListener(this);
+            recipeImageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-
+            int clickedPosition = getAdapterPosition();
+            mListItemClickListener.onListItemClick(clickedPosition);
         }
     }
 }
