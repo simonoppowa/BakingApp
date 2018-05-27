@@ -48,6 +48,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         return mIngredientList.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ingredient_name_TextView)

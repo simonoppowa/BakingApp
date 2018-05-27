@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BakingApp</string>
     <string name="ingredients_title">Ingredients</string>
+    <string name="recipe_steps_title">Steps</string>
 
     <!--Error messages-->
     <string name="no_connection_error_messsage">No connection to server</string>
