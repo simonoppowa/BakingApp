@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @BindView(R.id.recipe_card_recyclerView)
     RecyclerView mRecipeRecyclerView;
+    @BindView(R.id.loading_ProgressBar)
+    ProgressBar mLoadingProgressBar;
     private LinearLayoutManager mLinearLayoutManager;
     private RecipeAdapter mRecipeAdapter;
 
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
      * Fetches Recipe JSON from recipeURLString and creates ArrayList
      */
     private void fetchRecipeList() {
+        showProgressBar();
         //using Volley to fetch JSON from Recipe URL
         StringRequest request = new StringRequest(Request.Method.GET, recipeURLString, new Response.Listener<String>() {
             @Override
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
                 );
 
                 mRecipeAdapter.setRecipeList(mRecipeList);
+                showContent();
             }
 
         }, new Response.ErrorListener() {
@@ -94,12 +99,23 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
                 })
                         .setActionTextColor(Color.RED)
                         .show();
+                showContent();
             }
         });
 
         RequestQueue rQueue = Volley.newRequestQueue(MainActivity.this);
         rQueue.add(request);
 
+    }
+
+    private void showContent() {
+        mLoadingProgressBar.setVisibility(View.GONE);
+        mRecipeRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgressBar() {
+        mRecipeRecyclerView.setVisibility(View.GONE);
+        mLoadingProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
