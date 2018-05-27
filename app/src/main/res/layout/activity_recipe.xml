@@ -9,10 +9,11 @@
     tools:context=".RecipeActivity">
 
     <TextView
-        android:id="@+id/ingredients_tible_TextView"
+        android:id="@+id/ingredients_title_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ingredients_title"
+        android:layout_margin="8dp"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <android.support.v7.widget.RecyclerView
