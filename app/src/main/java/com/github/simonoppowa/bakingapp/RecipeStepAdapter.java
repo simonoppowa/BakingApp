@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.simonoppowa.bakingapp.model.RecipeStep;
+import com.github.simonoppowa.bakingapp.utils.VideoRequestHandler;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,6 +40,29 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.recipeStepTitleTextView.setText(mRecipeStepList.get(position).getShortDescription());
+
+
+        //selecting thumbnail url
+        String thumbnailUrl = null;
+
+        if(mRecipeStepList.get(position).getThumbnailURL() != null && !mRecipeStepList.get(position).getThumbnailURL().equals("")) {
+            thumbnailUrl = mRecipeStepList.get(position).getThumbnailURL();
+        } else if(mRecipeStepList.get(position).getVideoURL() != null && !mRecipeStepList.get(position).getVideoURL().equals("")) {
+            thumbnailUrl = mRecipeStepList.get(position).getVideoURL();
+        }
+
+        Picasso picasso = new Picasso.Builder(context.getApplicationContext())
+                .addRequestHandler(new VideoRequestHandler())
+                .build();
+
+        if(thumbnailUrl != null) {
+            picasso.load(thumbnailUrl)
+                    .error(R.drawable.default_recipe_image)
+                    .noPlaceholder()
+                    .into(holder.recipeStepImageView);
+        } else {
+            holder.recipeStepImageView.setImageResource(R.drawable.default_recipe_image);
+        }
     }
 
     @Override
