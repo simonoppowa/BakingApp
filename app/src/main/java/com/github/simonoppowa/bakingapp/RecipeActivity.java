@@ -1,8 +1,8 @@
 package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -14,11 +14,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.github.simonoppowa.bakingapp.MainActivity.*;
+import static com.github.simonoppowa.bakingapp.MainActivity.RECIPE_KEY;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapter.RecipeItemClickListener{
 
-    private static final String INGREDIENTS_KEY = "ingredients";
+    public static final String INGREDIENTS_KEY = "ingredients";
+    public static final String RECIPE_STEP_KEY = "recipeStep";
 
     @BindView(R.id.ingredient_card_recyclerView)
     RecyclerView mIngredientsRecyclerView;
@@ -41,7 +42,7 @@ public class RecipeActivity extends AppCompatActivity {
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        //get Recipe form Intent
+        //getting Recipe form Intent
         Intent recipeIntent = getIntent();
 
         mRecipe = recipeIntent.getParcelableExtra(RECIPE_KEY);
@@ -50,7 +51,7 @@ public class RecipeActivity extends AppCompatActivity {
             throw new NullPointerException("No Recipe was passed to RecipeActivity");
         }
 
-        //set Title
+        //setting Title
         setTitle(mRecipe.getName());
 
         //creating Ingredients RecyclerView
@@ -62,7 +63,7 @@ public class RecipeActivity extends AppCompatActivity {
 
         //creating RecipeSteps RecyclerView
         mRecipeStepsLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecipeStepAdapter = new RecipeStepAdapter(this, Arrays.asList(mRecipe.getRecipeSteps()));
+        mRecipeStepAdapter = new RecipeStepAdapter(this, Arrays.asList(mRecipe.getRecipeSteps()), this);
 
         mRecipeStepRecyclerView.setLayoutManager(mRecipeStepsLinearLayoutManager);
         mRecipeStepRecyclerView.setAdapter(mRecipeStepAdapter);
@@ -78,5 +79,14 @@ public class RecipeActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBooleanArray(INGREDIENTS_KEY, mIngredientAdapter.getCheckedIngredients());
+    }
+
+    @Override
+    public void onListItemClick(int clickedPosition) {
+        Intent recipeStepIntent = new Intent(this, RecipeStepActivity.class);
+
+        recipeStepIntent.putExtra(RECIPE_STEP_KEY, mRecipe.getRecipeSteps()[clickedPosition]);
+
+        startActivity(recipeStepIntent);
     }
 }

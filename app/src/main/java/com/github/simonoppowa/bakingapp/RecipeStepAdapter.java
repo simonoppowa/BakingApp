@@ -24,9 +24,16 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
 
     private List<RecipeStep> mRecipeStepList;
 
-    public RecipeStepAdapter(Context context, List<RecipeStep> recipeSteps) {
+    private final RecipeItemClickListener mRecipeItemClickListener;
+
+    public interface RecipeItemClickListener {
+        void onListItemClick(int clickedPosition);
+    }
+
+    public RecipeStepAdapter(Context context, List<RecipeStep> recipeSteps, RecipeItemClickListener recipeItemClickListener) {
         this.context = context;
         this.mRecipeStepList = recipeSteps;
+        this.mRecipeItemClickListener = recipeItemClickListener;
     }
 
     @NonNull
@@ -39,16 +46,21 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.recipeStepTitleTextView.setText(mRecipeStepList.get(position).getShortDescription());
+
+        RecipeStep selectedStep = mRecipeStepList.get(position);
+
+        //setting title text to recipeStepTitleTextView
+        String recipeStepTitle = (position + 1) + ". " + selectedStep.getShortDescription();
+        holder.recipeStepTitleTextView.setText(recipeStepTitle);
 
 
         //selecting thumbnail url
         String thumbnailUrl = null;
 
-        if(mRecipeStepList.get(position).getThumbnailURL() != null && !mRecipeStepList.get(position).getThumbnailURL().equals("")) {
-            thumbnailUrl = mRecipeStepList.get(position).getThumbnailURL();
-        } else if(mRecipeStepList.get(position).getVideoURL() != null && !mRecipeStepList.get(position).getVideoURL().equals("")) {
-            thumbnailUrl = mRecipeStepList.get(position).getVideoURL();
+        if(selectedStep.getThumbnailURL() != null && !selectedStep.getThumbnailURL().equals("")) {
+            thumbnailUrl = selectedStep.getThumbnailURL();
+        } else if(selectedStep.getVideoURL() != null && !selectedStep.getVideoURL().equals("")) {
+            thumbnailUrl = selectedStep.getVideoURL();
         }
 
         Picasso picasso = new Picasso.Builder(context.getApplicationContext())
@@ -70,7 +82,8 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
         return mRecipeStepList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.recipe_step_thumbnail_imageView)
         ImageView recipeStepImageView;
@@ -81,6 +94,14 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            recipeStepImageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            mRecipeItemClickListener.onListItemClick(clickedPosition);
         }
     }
 }
