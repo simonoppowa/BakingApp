@@ -18,6 +18,7 @@ import static com.github.simonoppowa.bakingapp.MainActivity.*;
 
 public class RecipeActivity extends AppCompatActivity {
 
+    private static final String INGREDIENTS_KEY = "ingredients";
 
     @BindView(R.id.ingredient_card_recyclerView)
     RecyclerView mIngredientsRecyclerView;
@@ -66,5 +67,16 @@ public class RecipeActivity extends AppCompatActivity {
         mRecipeStepRecyclerView.setLayoutManager(mRecipeStepsLinearLayoutManager);
         mRecipeStepRecyclerView.setAdapter(mRecipeStepAdapter);
 
+        //checking for rotation
+        if(savedInstanceState != null && savedInstanceState.containsKey(INGREDIENTS_KEY)) {
+            mIngredientAdapter.setCheckedIngredients(savedInstanceState.getBooleanArray(INGREDIENTS_KEY));
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBooleanArray(INGREDIENTS_KEY, mIngredientAdapter.getCheckedIngredients());
     }
 }

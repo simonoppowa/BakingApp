@@ -23,13 +23,29 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     private List<Ingredient> mIngredientList;
 
-    private SparseBooleanArray mCheckedItems = new SparseBooleanArray();
+    private SparseBooleanArray mCheckedItems;
 
     public IngredientAdapter(Context context, List<Ingredient> ingredientList) {
         this.context = context;
         this.mIngredientList = ingredientList;
+        this.mCheckedItems = new SparseBooleanArray();
     }
 
+    public boolean[] getCheckedIngredients() {
+        boolean[] checkedItems = new boolean[mIngredientList.size()];
+
+        for(int i = 0; i < checkedItems.length; i++) {
+            checkedItems[i] = mCheckedItems.get(i);
+        }
+        return checkedItems;
+    }
+
+    public void setCheckedIngredients(boolean[] checkedIngredientsArray) {
+        for(int i = 0; i < checkedIngredientsArray.length; i++) {
+            mCheckedItems.put(i, checkedIngredientsArray[i]);
+        }
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
