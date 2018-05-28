@@ -3,6 +3,7 @@ package com.github.simonoppowa.bakingapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -62,8 +62,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         mRecipeRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
-        fetchRecipeList();
-
+        //checking for rotation
+        if(savedInstanceState != null && savedInstanceState.containsKey(RECIPE_KEY)) {
+            mRecipeList = savedInstanceState.getParcelableArrayList(RECIPE_KEY);
+            mRecipeAdapter.setRecipeList((mRecipeList));
+            showContent();
+        } else {
+            fetchRecipeList();
+        }
     }
 
     /**
@@ -75,12 +81,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         StringRequest request = new StringRequest(Request.Method.GET, recipeURLString, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Timber.d(response);
 
                 //using GSON to create Recipe List
                 Gson gson = new Gson();
-                mRecipeList = Arrays.asList(
+                mRecipeList = new ArrayList<>(Arrays.asList(
                         gson.fromJson(response, Recipe[].class)
-                );
+                ));
 
                 mRecipeAdapter.setRecipeList(mRecipeList);
                 showContent();
@@ -116,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     private void showProgressBar() {
         mRecipeRecyclerView.setVisibility(View.GONE);
         mLoadingProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(RECIPE_KEY, (ArrayList<? extends Parcelable>) mRecipeList);
     }
 
     @Override
