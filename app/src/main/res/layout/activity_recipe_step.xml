@@ -1,56 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".RecipeStepActivity"
     tools:layout_editor_absoluteY="81dp">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/recipe_step_exo_player"
-        android:layout_width="0dp"
-        android:layout_height="246dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalHalf"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-
-    <ImageView
-        android:id="@+id/recipe_step_no_video_image"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/recipe_step_viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/default_recipe_image"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalHalf"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="wrap_content">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/horizontalHalf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="256dp" />
 
-    <TextView
-        android:id="@+id/recipe_step_description_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Body2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/horizontalHalf"
-        tools:text="Description" />
+    </android.support.v4.view.ViewPager>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

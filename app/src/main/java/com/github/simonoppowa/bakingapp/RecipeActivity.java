@@ -2,13 +2,17 @@ package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.github.simonoppowa.bakingapp.model.Recipe;
+import com.github.simonoppowa.bakingapp.model.RecipeStep;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +89,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
     public void onListItemClick(int clickedPosition) {
         Intent recipeStepIntent = new Intent(this, RecipeStepActivity.class);
 
-        recipeStepIntent.putExtra(RECIPE_STEP_KEY, mRecipe.getRecipeSteps()[clickedPosition]);
+        List<RecipeStep> recipeStepsList = new ArrayList<RecipeStep>(Arrays.asList(mRecipe.getRecipeSteps()));
+
+
+        recipeStepIntent.putParcelableArrayListExtra(RECIPE_STEP_KEY, (ArrayList<? extends Parcelable>) recipeStepsList);
 
         startActivity(recipeStepIntent);
     }
