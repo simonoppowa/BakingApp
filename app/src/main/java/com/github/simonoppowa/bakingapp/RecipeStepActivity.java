@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 import timber.log.Timber;
 
 import static com.github.simonoppowa.bakingapp.RecipeActivity.RECIPE_STEP_KEY;
@@ -41,7 +43,7 @@ public class RecipeStepActivity extends AppCompatActivity {
 
     private SimpleExoPlayer mSimpleExoPlayer;
 
-    @BindView(R.id.recipe_step_description_textView)
+    @Nullable @BindView(R.id.recipe_step_description_textView)
     TextView mDescriptionTextView;
 
     @BindView(R.id.recipe_step_no_video_image)
@@ -85,7 +87,9 @@ public class RecipeStepActivity extends AppCompatActivity {
         }
 
         //setting description
-        mDescriptionTextView.setText(mRecipeStep.getDescription());
+        if(mDescriptionTextView != null) {
+            mDescriptionTextView.setText(mRecipeStep.getDescription());
+        }
 
     }
 
