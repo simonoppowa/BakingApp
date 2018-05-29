@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
 
 import com.github.simonoppowa.bakingapp.fragments.RecipeVideoFragment;
 import com.github.simonoppowa.bakingapp.model.RecipeStep;
@@ -25,6 +26,8 @@ public class RecipeStepActivity extends AppCompatActivity {
     @BindView(R.id.recipe_step_viewPager)
     ViewPager mRecipeStepViewPager;
 
+    private RecipeVideoFragment mCurrentRecipeVideoFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +46,24 @@ public class RecipeStepActivity extends AppCompatActivity {
             throw new NullPointerException("No RecipeStep was passed to RecipeStepActivity");
         }
 
-
         mRecipeStepViewPager.setAdapter(new RecipeStepPagerAdapter(getSupportFragmentManager()));
+        mRecipeStepViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                mCurrentRecipeVideoFragment.stopPlayer();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
-
-
-
 
     private class RecipeStepPagerAdapter extends FragmentPagerAdapter {
 
@@ -65,6 +79,14 @@ public class RecipeStepActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return mRecipeSteps.size();
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            if(mCurrentRecipeVideoFragment != object) {
+                mCurrentRecipeVideoFragment = (RecipeVideoFragment) object;
+            }
         }
     }
 }

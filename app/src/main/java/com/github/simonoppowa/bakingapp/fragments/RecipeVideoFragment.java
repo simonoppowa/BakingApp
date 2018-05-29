@@ -44,7 +44,7 @@ import timber.log.Timber;
 public class RecipeVideoFragment extends Fragment {
 
     public static final String RECIPE_STEP_KEY  = "recipeStep";
-    private static final boolean SHOULD_AUTO_PLAY = true;
+    private static final boolean SHOULD_AUTO_PLAY = false;
 
     private SimpleExoPlayer mSimpleExoPlayer;
 
@@ -150,18 +150,23 @@ public class RecipeVideoFragment extends Fragment {
         mSimpleExoPlayerView.setDefaultArtwork(videoImage);
 
     }
-    private void releasePlayer() {
-        mSimpleExoPlayer.stop();
-        mSimpleExoPlayer.release();
-        mSimpleExoPlayer = null;
+    public void releasePlayer() {
+        if(mSimpleExoPlayer != null) {
+            mSimpleExoPlayer.stop();
+            mSimpleExoPlayer.release();
+            mSimpleExoPlayer = null;
+        }
     }
 
+    public void stopPlayer() {
+        if(mSimpleExoPlayer != null) {
+            mSimpleExoPlayer.stop();
+        }
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mSimpleExoPlayer != null) {
             releasePlayer();
-        }
     }
 }
