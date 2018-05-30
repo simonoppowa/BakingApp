@@ -158,9 +158,10 @@ public class RecipeVideoFragment extends Fragment {
         }
     }
 
-    public void stopPlayer() {
+    public void pausePlayer() {
         if(mSimpleExoPlayer != null) {
-            mSimpleExoPlayer.stop();
+            mSimpleExoPlayer.setPlayWhenReady(false);
+            mSimpleExoPlayer.getPlaybackState();
         }
     }
 

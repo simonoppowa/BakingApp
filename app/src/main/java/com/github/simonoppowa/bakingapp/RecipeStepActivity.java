@@ -2,6 +2,7 @@ package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -40,6 +41,9 @@ public class RecipeStepActivity extends AppCompatActivity {
         //getting RecipeStep from Intent
         Intent recipeStepIntent = getIntent();
 
+        //setting title
+        //TODO
+
         mRecipeSteps = recipeStepIntent.getParcelableArrayListExtra(RECIPE_STEP_KEY);
 
         if (mRecipeSteps == null) {
@@ -54,7 +58,7 @@ public class RecipeStepActivity extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                mCurrentRecipeVideoFragment.stopPlayer();
+                mCurrentRecipeVideoFragment.pausePlayer();
             }
 
             @Override
@@ -84,6 +88,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
+            //setting new active fragment
             if(mCurrentRecipeVideoFragment != object) {
                 mCurrentRecipeVideoFragment = (RecipeVideoFragment) object;
             }
