@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/recipe_step_no_video_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_gravity="top"
         android:src="@drawable/default_recipe_image" />
 

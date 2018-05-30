@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.github.simonoppowa.bakingapp.RecipeActivity.CLICKED_RECIPE_STEP_KEY;
 import static com.github.simonoppowa.bakingapp.RecipeActivity.RECIPE_STEP_KEY;
+import static com.github.simonoppowa.bakingapp.fragments.RecipeInfoFragment.CLICKED_RECIPE_STEP_KEY;
 
 public class RecipeStepActivity extends AppCompatActivity {
 
