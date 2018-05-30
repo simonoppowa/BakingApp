@@ -18,11 +18,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.github.simonoppowa.bakingapp.RecipeActivity.CLICKED_RECIPE_STEP_KEY;
 import static com.github.simonoppowa.bakingapp.RecipeActivity.RECIPE_STEP_KEY;
 
 public class RecipeStepActivity extends AppCompatActivity {
 
     private List<RecipeStep> mRecipeSteps;
+    private int mClickedRecipeStep;
 
     @BindView(R.id.recipe_step_viewPager)
     ViewPager mRecipeStepViewPager;
@@ -41,10 +43,10 @@ public class RecipeStepActivity extends AppCompatActivity {
         //getting RecipeStep from Intent
         Intent recipeStepIntent = getIntent();
 
-        //setting title
-        //TODO
-
         mRecipeSteps = recipeStepIntent.getParcelableArrayListExtra(RECIPE_STEP_KEY);
+
+        //getting clickedRecipeStepIndex
+        mClickedRecipeStep = recipeStepIntent.getIntExtra(CLICKED_RECIPE_STEP_KEY, 0);
 
         if (mRecipeSteps == null) {
             throw new NullPointerException("No RecipeStep was passed to RecipeStepActivity");
@@ -58,7 +60,9 @@ public class RecipeStepActivity extends AppCompatActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                mCurrentRecipeVideoFragment.pausePlayer();
+                if(mCurrentRecipeVideoFragment != null) {
+                    mCurrentRecipeVideoFragment.pausePlayer();
+                }
             }
 
             @Override
@@ -66,6 +70,7 @@ public class RecipeStepActivity extends AppCompatActivity {
 
             }
         });
+        mRecipeStepViewPager.setCurrentItem(mClickedRecipeStep);
 
     }
 

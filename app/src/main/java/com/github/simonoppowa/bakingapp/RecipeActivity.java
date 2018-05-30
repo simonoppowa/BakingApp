@@ -23,6 +23,7 @@ import static com.github.simonoppowa.bakingapp.MainActivity.RECIPE_KEY;
 public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapter.RecipeItemClickListener{
 
     public static final String INGREDIENTS_KEY = "ingredients";
+    public static final String CLICKED_RECIPE_STEP_KEY = "clickedRecipeStep";
     public static final String RECIPE_STEP_KEY = "recipeStep";
 
     @BindView(R.id.ingredient_card_recyclerView)
@@ -93,6 +94,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
 
 
         recipeStepIntent.putParcelableArrayListExtra(RECIPE_STEP_KEY, (ArrayList<? extends Parcelable>) recipeStepsList);
+        recipeStepIntent.putExtra(CLICKED_RECIPE_STEP_KEY, clickedPosition);
 
         startActivity(recipeStepIntent);
     }
