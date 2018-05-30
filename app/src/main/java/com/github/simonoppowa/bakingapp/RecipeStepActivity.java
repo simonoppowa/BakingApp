@@ -77,7 +77,7 @@ public class RecipeStepActivity extends AppCompatActivity {
 
     }
 
-    private class RecipeStepPagerAdapter extends FragmentPagerAdapter {
+    public class RecipeStepPagerAdapter extends FragmentPagerAdapter {
 
         public RecipeStepPagerAdapter(FragmentManager fm) {
             super(fm);

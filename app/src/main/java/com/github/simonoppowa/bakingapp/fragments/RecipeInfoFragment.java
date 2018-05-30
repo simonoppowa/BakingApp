@@ -107,6 +107,8 @@ public class RecipeInfoFragment extends Fragment implements RecipeStepAdapter.Re
     @Override
     public void onListItemClick(int clickedPosition) {
 
+        //TODO
+
         //start new RecipeStepActivity
         Intent recipeStepIntent = new Intent(mContext, RecipeStepActivity.class);
 
