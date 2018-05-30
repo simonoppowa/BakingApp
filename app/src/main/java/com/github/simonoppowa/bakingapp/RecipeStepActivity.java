@@ -40,6 +40,9 @@ public class RecipeStepActivity extends AppCompatActivity {
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
+        //Setting Title
+        setTitle(getString(R.string.recipe_steps_title));
+
         //getting RecipeStep from Intent
         Intent recipeStepIntent = getIntent();
 
