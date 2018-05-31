@@ -82,14 +82,20 @@ public class RecipeVideoFragment extends Fragment {
         //getting RecipeStep
         mRecipeStep = getArguments().getParcelable(RECIPE_STEP_KEY);
 
+        if(mRecipeStep == null) {
+            throw new NullPointerException("No RecipeStep was passed to RecipeVideoFragment");
+        }
+
         //setting description
         if(mDescriptionTextView != null) {
             mDescriptionTextView.setText(mRecipeStep.getDescription());
         }
 
-        //check if video available
+        //checking if video available
         if(mRecipeStep.getVideoURL() != null && !mRecipeStep.getVideoURL().isEmpty()) {
             showVideoPlayer();
+        } else {
+            showDefaultImage();
         }
 
         return view;
@@ -106,7 +112,7 @@ public class RecipeVideoFragment extends Fragment {
         return fragment;
     }
 
-    public void showVideoPlayer() {
+    private void showVideoPlayer() {
 
         //setting up Player
         mBandwidthMeter = new DefaultBandwidthMeter();
@@ -115,9 +121,15 @@ public class RecipeVideoFragment extends Fragment {
                 (TransferListener<? super DataSource>) mBandwidthMeter);
         mWindow = new Timeline.Window();
 
-        mSimpleExoPlayerView.setVisibility(View.VISIBLE);
         mDefaultRecipeStepImage.setVisibility(View.GONE);
+        mSimpleExoPlayerView.setVisibility(View.VISIBLE);
+
         setUpExoPlayer();
+    }
+
+    private void showDefaultImage() {
+        mSimpleExoPlayerView.setVisibility(View.GONE);
+        mDefaultRecipeStepImage.setVisibility(View.VISIBLE);
     }
 
     private void setUpExoPlayer() {
@@ -144,10 +156,6 @@ public class RecipeVideoFragment extends Fragment {
                 null);
 
         mSimpleExoPlayer.prepare(mediaSource);
-
-        //setting default video image
-        Bitmap videoImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_recipe_image);
-        mSimpleExoPlayerView.setDefaultArtwork(videoImage);
 
     }
     public void releasePlayer() {

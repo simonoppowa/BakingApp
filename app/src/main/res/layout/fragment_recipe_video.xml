@@ -7,22 +7,36 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/recipe_step_exo_player"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone">
+        android:layout_height="wrap_content">
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/recipe_step_exo_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
 
-    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+        <ImageView
+            android:id="@+id/recipe_step_no_video_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="top"
+            android:src="@drawable/default_recipe_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
-    <ImageView
-        android:id="@+id/recipe_step_no_video_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="top"
-        android:src="@drawable/default_recipe_image" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
 
     <TextView
         android:id="@+id/recipe_step_description_textView"
