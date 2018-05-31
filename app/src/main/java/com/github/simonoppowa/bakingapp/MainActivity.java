@@ -1,15 +1,15 @@
 package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.android.volley.Request;
@@ -34,11 +34,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     public static final String recipeURLString = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     public static final String RECIPE_KEY = "recipe";
 
+    public static final int GRID_LAYOUT_COLUMN_COUNT_PORTRAIT = 1;
+    public static final int GRID_LAYOUT_COLUMN_COUNT_LANDSCAPE = 3;
+
     @BindView(R.id.recipe_card_recyclerView)
     RecyclerView mRecipeRecyclerView;
     @BindView(R.id.loading_ProgressBar)
     ProgressBar mLoadingProgressBar;
-    private LinearLayoutManager mLinearLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private RecipeAdapter mRecipeAdapter;
 
     public static List<Recipe> mRecipeList;
@@ -56,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         mRecipeList = new ArrayList<>();
 
         //creating RecyclerView
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
+        final int columns = chooseLayoutColumns();
+        mGridLayoutManager = new GridLayoutManager(this, columns, GridLayoutManager.VERTICAL, false);
         mRecipeAdapter = new RecipeAdapter(this, mRecipeList, this);
 
-        mRecipeRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecipeRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         //checking for rotation
@@ -123,6 +127,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     private void showProgressBar() {
         mRecipeRecyclerView.setVisibility(View.GONE);
         mLoadingProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private int chooseLayoutColumns() {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            return GRID_LAYOUT_COLUMN_COUNT_PORTRAIT;
+        } else {
+            return GRID_LAYOUT_COLUMN_COUNT_LANDSCAPE;
+        }
     }
 
     @Override
