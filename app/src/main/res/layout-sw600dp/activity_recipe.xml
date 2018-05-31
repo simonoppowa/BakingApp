@@ -26,22 +26,12 @@
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <FrameLayout
+        android:id="@+id/recipe_video_step_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true"
-        tools:context=".RecipeStepActivity"
-        tools:layout_editor_absoluteY="81dp">
+        android:layout_height="wrap_content">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/recipe_step_viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

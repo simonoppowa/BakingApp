@@ -2,38 +2,25 @@ package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
 
 import com.github.simonoppowa.bakingapp.fragments.RecipeInfoFragment;
 import com.github.simonoppowa.bakingapp.fragments.RecipeVideoFragment;
 import com.github.simonoppowa.bakingapp.model.Recipe;
 import com.github.simonoppowa.bakingapp.model.RecipeStep;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static java.util.Arrays.asList;
+import static com.github.simonoppowa.bakingapp.fragments.RecipeInfoFragment.CLICKED_RECIPE_STEP_KEY;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapter.RecipeItemClickListener{
 
     public static final String RECIPE_KEY = "recipe";
     public static final String RECIPE_STEP_KEY = "recipeStep";
-
-    private int mClickedRecipeStep;
-    private List<RecipeStep> mRecipeSteps;
-
-    @BindView(R.id.recipe_step_viewPager)
-    ViewPager mRecipeStepViewPager;
-
-    private RecipeVideoFragment mCurrentRecipeVideoFragment;
 
     private Recipe mRecipe;
 
@@ -65,62 +52,51 @@ public class RecipeActivity extends AppCompatActivity {
         recipeInfoFragment.setArguments(bundle);
 
         //replacing FrameLayout with Fragment
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.recipe_info_container, recipeInfoFragment)
                 .commit();
 
+        //checking if Tablet layout
+        if(findViewById(R.id.recipe_video_step_container) != null) {
 
-        mRecipeSteps = Arrays.asList(mRecipe.getRecipeSteps()[0]);
+            //default RecipeStep
+            RecipeStep defaultRecipeStep = mRecipe.getRecipeSteps()[0];
 
-
-        //ViewPager
-        mRecipeStepViewPager.setAdapter(new RecipeStepPagerAdapter(getSupportFragmentManager()));
-        mRecipeStepViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(mCurrentRecipeVideoFragment != null) {
-                    mCurrentRecipeVideoFragment.pausePlayer();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-    }
+            RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
+            bundle = new Bundle();
+            bundle.putParcelable(RECIPE_STEP_KEY, defaultRecipeStep);
+            recipeVideoFragment.setArguments(bundle);
 
 
-    public class RecipeStepPagerAdapter extends FragmentPagerAdapter {
-
-        public RecipeStepPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            return RecipeVideoFragment.newInstance(mRecipeSteps.get(position));
-        }
-
-        @Override
-        public int getCount() {
-            return mRecipeSteps.size();
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            //setting new active fragment
-            if (mCurrentRecipeVideoFragment != object) {
-                mCurrentRecipeVideoFragment = (RecipeVideoFragment) object;
-            }
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.recipe_video_step_container, recipeVideoFragment)
+                    .commit();
         }
     }
 
+    @Override
+    public void onListItemClick(int clickedPosition) {
+
+        RecipeStep[] clickedRecipeSteps = mRecipe.getRecipeSteps();
+
+        //checking if Tablet layout
+        if(findViewById(R.id.recipe_video_step_container) != null) {
+            RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(RECIPE_STEP_KEY, clickedRecipeSteps[clickedPosition]);
+            recipeVideoFragment.setArguments(bundle);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.recipe_video_step_container, recipeVideoFragment)
+                    .commit();
+        } else {
+            Intent recipeStepIntent = new Intent(this, RecipeStepActivity.class);
+            recipeStepIntent.putParcelableArrayListExtra(RECIPE_STEP_KEY, new ArrayList<>(Arrays.asList(clickedRecipeSteps)));
+            recipeStepIntent.putExtra(CLICKED_RECIPE_STEP_KEY, clickedPosition);
+
+            startActivity(recipeStepIntent);
+        }
+
+    }
 }

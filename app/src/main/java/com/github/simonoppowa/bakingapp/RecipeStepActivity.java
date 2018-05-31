@@ -2,7 +2,7 @@ package com.github.simonoppowa.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -52,7 +52,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         mClickedRecipeStep = recipeStepIntent.getIntExtra(CLICKED_RECIPE_STEP_KEY, 0);
 
         if (mRecipeSteps == null) {
-            throw new NullPointerException("No RecipeStep was passed to RecipeStepActivity");
+            throw new NullPointerException("No RecipeSteps were passed to RecipeStepActivity");
         }
 
         mRecipeStepViewPager.setAdapter(new RecipeStepPagerAdapter(getSupportFragmentManager()));
@@ -84,7 +84,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
+        public Fragment getItem(int position) {
             return RecipeVideoFragment.newInstance(mRecipeSteps.get(position));
         }
 

@@ -1,11 +1,9 @@
 package com.github.simonoppowa.bakingapp.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,15 +12,10 @@ import android.view.ViewGroup;
 
 import com.github.simonoppowa.bakingapp.IngredientAdapter;
 import com.github.simonoppowa.bakingapp.R;
-import com.github.simonoppowa.bakingapp.RecipeActivity;
-import com.github.simonoppowa.bakingapp.RecipeStepActivity;
 import com.github.simonoppowa.bakingapp.RecipeStepAdapter;
 import com.github.simonoppowa.bakingapp.model.Recipe;
-import com.github.simonoppowa.bakingapp.model.RecipeStep;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +23,7 @@ import timber.log.Timber;
 
 import static com.github.simonoppowa.bakingapp.RecipeActivity.RECIPE_KEY;
 
-public class RecipeInfoFragment extends Fragment implements RecipeStepAdapter.RecipeItemClickListener{
+public class RecipeInfoFragment extends Fragment {
 
     public static final String INGREDIENTS_KEY = "ingredients";
     public static final String CLICKED_RECIPE_STEP_KEY = "clickedRecipeStep";
@@ -92,7 +85,7 @@ public class RecipeInfoFragment extends Fragment implements RecipeStepAdapter.Re
 
         //creating RecipeSteps RecyclerView
         mRecipeStepsLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRecipeStepAdapter = new RecipeStepAdapter(mContext, Arrays.asList(mRecipe.getRecipeSteps()), this);
+        mRecipeStepAdapter = new RecipeStepAdapter(mContext, Arrays.asList(mRecipe.getRecipeSteps()), (RecipeStepAdapter.RecipeItemClickListener) getActivity());
 
         mRecipeStepRecyclerView.setLayoutManager(mRecipeStepsLinearLayoutManager);
         mRecipeStepRecyclerView.setAdapter(mRecipeStepAdapter);
@@ -101,24 +94,6 @@ public class RecipeInfoFragment extends Fragment implements RecipeStepAdapter.Re
         if(savedInstanceState != null && savedInstanceState.containsKey(INGREDIENTS_KEY)) {
             mIngredientAdapter.setCheckedIngredients(savedInstanceState.getBooleanArray(INGREDIENTS_KEY));
         }
-
-    }
-
-    @Override
-    public void onListItemClick(int clickedPosition) {
-
-        //TODO
-
-        //start new RecipeStepActivity
-        Intent recipeStepIntent = new Intent(mContext, RecipeStepActivity.class);
-
-        List<RecipeStep> recipeStepsList = new ArrayList<RecipeStep>(Arrays.asList(mRecipe.getRecipeSteps()));
-
-
-        recipeStepIntent.putParcelableArrayListExtra(RecipeActivity.RECIPE_STEP_KEY, (ArrayList<? extends Parcelable>) recipeStepsList);
-        recipeStepIntent.putExtra(CLICKED_RECIPE_STEP_KEY, clickedPosition);
-
-        startActivity(recipeStepIntent);
     }
 
     @Override
