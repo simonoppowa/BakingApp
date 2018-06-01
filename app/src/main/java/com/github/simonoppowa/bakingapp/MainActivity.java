@@ -1,5 +1,6 @@
 package com.github.simonoppowa.bakingapp;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RemoteViews;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -146,9 +148,44 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @Override
     public void onListItemClick(int clickedItemIndex) {
 
-        //start RecipeActivity
+        //checking if Activity was launched as config for IngredientsWidget
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null) {
+            int widgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID
+            );
+            setupWidget(widgetId, mRecipeList.get(clickedItemIndex));
+            return;
+        }
+
+        //if MainActivity wasn't launched for configuration, start RecipeActivity
         Intent recipeIntent = new Intent(this, RecipeActivity.class);
         recipeIntent.putExtra(RECIPE_KEY, mRecipeList.get(clickedItemIndex));
         startActivity(recipeIntent);
+    }
+
+    /**
+     * Configure the static Widget with the clicked Recipe
+     * @param widgetId Id of the created Widget to configure
+     * @param clickedRecipe clicked Recipe
+     */
+    private void setupWidget(int widgetId, Recipe clickedRecipe) {
+
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+
+            RemoteViews views = new RemoteViews(getPackageName(), R.layout.ingredients_widget);
+
+            views.setTextViewText(R.id.recipe_widget_title_textView, clickedRecipe.getName());
+
+            views.setTextViewText(R.id.recipe_widget_ingredients_textView, clickedRecipe.getIngredientNamesListString());
+
+            appWidgetManager.updateAppWidget(widgetId, views);
+
+            Intent resultValue = new Intent();
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+            setResult(RESULT_OK, resultValue);
+            finish();
     }
 }

@@ -69,6 +69,19 @@ public class Recipe implements Parcelable{
         this.ingredients = ingredients;
     }
 
+    /**
+     * Creates a String with all ingredients separated by line breaks
+     * @return A String which contains all ingredients
+     */
+    public String getIngredientNamesListString() {
+        StringBuilder ingredientNamesListString = new StringBuilder();
+
+        for(int i = 0; i < ingredients.length; i++) {
+            ingredientNamesListString.append("\u25CF " + ingredients[i].getIngredientName() + "\n");
+        }
+        return ingredientNamesListString.toString();
+    }
+
     public RecipeStep[] getRecipeSteps() {
         return recipeSteps;
     }
