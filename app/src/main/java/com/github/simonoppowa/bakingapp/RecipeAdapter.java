@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.simonoppowa.bakingapp.model.Recipe;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 .load(context.getString(resId))
                 .noPlaceholder()
                 .error(R.drawable.default_recipe_image)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(holder.recipeImageView);
     }
 

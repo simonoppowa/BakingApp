@@ -121,10 +121,11 @@ public class RecipeVideoFragment extends Fragment {
                 (TransferListener<? super DataSource>) mBandwidthMeter);
         mWindow = new Timeline.Window();
 
+        setUpExoPlayer();
+
         mDefaultRecipeStepImage.setVisibility(View.GONE);
         mSimpleExoPlayerView.setVisibility(View.VISIBLE);
 
-        setUpExoPlayer();
     }
 
     private void showDefaultImage() {

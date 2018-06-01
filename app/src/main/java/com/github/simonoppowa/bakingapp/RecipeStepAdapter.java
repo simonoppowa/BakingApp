@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.github.simonoppowa.bakingapp.model.RecipeStep;
 import com.github.simonoppowa.bakingapp.utils.VideoRequestHandler;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
             thumbnailUrl = selectedStep.getVideoURL();
         }
 
+        //setting VideoRequestHandler to load thumbnail
         Picasso picasso = new Picasso.Builder(context.getApplicationContext())
                 .addRequestHandler(new VideoRequestHandler())
                 .build();
@@ -71,6 +73,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
             picasso.load(thumbnailUrl)
                     .error(R.drawable.default_recipe_image)
                     .noPlaceholder()
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(holder.recipeStepImageView);
         } else {
             holder.recipeStepImageView.setImageResource(R.drawable.default_recipe_image);

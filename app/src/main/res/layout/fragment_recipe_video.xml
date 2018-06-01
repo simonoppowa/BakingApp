@@ -35,9 +35,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
-
-
     <TextView
         android:id="@+id/recipe_step_description_textView"
         android:layout_width="match_parent"

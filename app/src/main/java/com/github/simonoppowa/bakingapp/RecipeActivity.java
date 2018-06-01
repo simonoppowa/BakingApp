@@ -59,7 +59,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
         //checking if Tablet layout
         if(findViewById(R.id.recipe_video_step_container) != null) {
 
-            //default RecipeStep
+            //getting default RecipeStep
             RecipeStep defaultRecipeStep = mRecipe.getRecipeSteps()[0];
 
             RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();

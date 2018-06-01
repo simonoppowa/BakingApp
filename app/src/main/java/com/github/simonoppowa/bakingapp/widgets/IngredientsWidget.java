@@ -20,7 +20,6 @@ public class IngredientsWidget extends AppWidgetProvider {
         //setting up Libraries
         Timber.plant(new Timber.DebugTree());
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);
     }

@@ -56,6 +56,7 @@ public class RecipeStepActivity extends AppCompatActivity {
         }
 
         mRecipeStepViewPager.setAdapter(new RecipeStepPagerAdapter(getSupportFragmentManager()));
+        mRecipeStepViewPager.setOffscreenPageLimit(1);
         mRecipeStepViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
