@@ -76,8 +76,10 @@ public class Recipe implements Parcelable{
     public String getIngredientNamesListString() {
         StringBuilder ingredientNamesListString = new StringBuilder();
 
-        for(int i = 0; i < ingredients.length; i++) {
-            ingredientNamesListString.append("\u25CF " + ingredients[i].getIngredientName() + "\n");
+        for (Ingredient ingredient : ingredients) {
+            ingredientNamesListString.append("\u25CF ")
+                    .append(ingredient.getIngredientName())
+                    .append("\n");
         }
         return ingredientNamesListString.toString();
     }

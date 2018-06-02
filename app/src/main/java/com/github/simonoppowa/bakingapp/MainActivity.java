@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             @Override
             public void onErrorResponse(VolleyError error) {
                 //show errorSnackbar
-                Snackbar errorSnackbar = Snackbar.make(mRecipeRecyclerView, getString(R.string.no_connection_error_messsage), Snackbar.LENGTH_INDEFINITE);
+                Snackbar errorSnackbar = Snackbar.make(mRecipeRecyclerView, getString(R.string.no_connection_error_message), Snackbar.LENGTH_INDEFINITE);
                 errorSnackbar.setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

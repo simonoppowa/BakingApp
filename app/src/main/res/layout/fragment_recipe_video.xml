@@ -27,6 +27,7 @@
             android:layout_height="300dp"
             android:layout_gravity="top"
             android:src="@drawable/default_recipe_image"
+            android:contentDescription="@string/default_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

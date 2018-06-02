@@ -3,25 +3,15 @@ package com.github.simonoppowa.bakingapp.widgets;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.widget.RemoteViews;
-
-import com.github.simonoppowa.bakingapp.R;
-
-import timber.log.Timber;
 
 /**
  * Implementation of App Widget functionality.
+ * No implementation because IngredientsWidget is a static widget
  */
 public class IngredientsWidget extends AppWidgetProvider {
 
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        //setting up Libraries
-        Timber.plant(new Timber.DebugTree());
-
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);
     }
 
     @Override

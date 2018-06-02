@@ -4,7 +4,13 @@
     <string name="recipe_steps_title">Steps</string>
 
     <!--Error messages-->
-    <string name="no_connection_error_messsage">No connection to server</string>
+    <string name="no_connection_error_message">No connection to server</string>
+
+
+    <!--Accessibility-->
+    <string name="recipe_image">Recipe image</string>
+    <string name="thumbnail_image">Video thumbnail</string>
+    <string name="default_image">Default recipe image</string>
 
 
 </resources>

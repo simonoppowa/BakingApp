@@ -39,7 +39,7 @@ public class VideoRequestHandler extends RequestHandler{
      * @return cutted bitmap
      */
     private static Bitmap retrieveVideoFrameFromVideo(String videoPath) throws Throwable {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -57,12 +57,15 @@ public class VideoRequestHandler extends RequestHandler{
                 mediaMetadataRetriever.release();
             }
         }
-        //cutting down image for better performance
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                bitmap, VIDEO_THUMBNAIL_WIDTH, VIDEO_THUMBNAIL_HEIGHT, false
-        );
+        if(bitmap != null) {
+            //cutting down image for better performance
+            return Bitmap.createScaledBitmap(
+                    bitmap, VIDEO_THUMBNAIL_WIDTH, VIDEO_THUMBNAIL_HEIGHT, false
+            );
+        } else {
+            return null;
+        }
 
-        return resizedBitmap;
     }
 
 }

@@ -1,13 +1,11 @@
 package com.github.simonoppowa.bakingapp.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.simonoppowa.bakingapp.R;
-import com.github.simonoppowa.bakingapp.RecipeActivity;
-import com.github.simonoppowa.bakingapp.model.Recipe;
 import com.github.simonoppowa.bakingapp.model.RecipeStep;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -57,7 +52,6 @@ public class RecipeVideoFragment extends Fragment {
     @BindView(R.id.recipe_step_exo_player)
     SimpleExoPlayerView mSimpleExoPlayerView;
 
-    private Timeline.Window mWindow;
     private DataSource.Factory mMediaDataSourceFactor;
     private DefaultTrackSelector mTrackSelector;
     private BandwidthMeter mBandwidthMeter;
@@ -119,7 +113,6 @@ public class RecipeVideoFragment extends Fragment {
         mMediaDataSourceFactor = new DefaultDataSourceFactory(mContext,
                 Util.getUserAgent(mContext, "BakingApp"),
                 (TransferListener<? super DataSource>) mBandwidthMeter);
-        mWindow = new Timeline.Window();
 
         setUpExoPlayer();
 
