@@ -6,7 +6,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.simonoppowa.bakingapp.model.Recipe;
+import com.github.simonoppowa.bakingapp.tests.SimpleIdlingResource;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     private RecipeAdapter mRecipeAdapter;
 
     public static List<Recipe> mRecipeList;
+
+    @Nullable private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +129,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     }
 
     private void showContent() {
+        //setting idling
+        if (mIdlingResource != null) {
+            mIdlingResource.setIdleState(true);
+        }
         mLoadingProgressBar.setVisibility(View.GONE);
         mRecipeRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -187,5 +198,17 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
             setResult(RESULT_OK, resultValue);
             finish();
+    }
+
+    /**
+     * Only for testing, creates and returns new {@link SimpleIdlingResource}
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if(mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
