@@ -51,7 +51,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
         bundle.putParcelable(RECIPE_KEY, mRecipe);
         recipeInfoFragment.setArguments(bundle);
 
-        //replacing FrameLayout with Fragment
+        //replacing FrameLayoutContainer with RecipeInfoFragment
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.recipe_info_container, recipeInfoFragment)
                 .commit();
@@ -62,12 +62,13 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
             //getting default RecipeStep
             RecipeStep defaultRecipeStep = mRecipe.getRecipeSteps()[0];
 
+            //setting up RecipeVideoFragment
             RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
             bundle = new Bundle();
             bundle.putParcelable(RECIPE_STEP_KEY, defaultRecipeStep);
             recipeVideoFragment.setArguments(bundle);
 
-
+            //replacing FrameLayoutContainer with RecipeVideoFragment
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_video_step_container, recipeVideoFragment)
                     .commit();
@@ -81,16 +82,20 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
 
         //checking if Tablet layout
         if(findViewById(R.id.recipe_video_step_container) != null) {
+
+            //setting up new RecipeVideoFragment
             RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
             Bundle bundle = new Bundle();
             bundle.putParcelable(RECIPE_STEP_KEY, clickedRecipeSteps[clickedPosition]);
             recipeVideoFragment.setArguments(bundle);
 
+            //replacing existing RecipeVideoFragment
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.recipe_video_step_container, recipeVideoFragment)
                     .commit();
         } else {
+            //launching new RecipeStepActivity
             Intent recipeStepIntent = new Intent(this, RecipeStepActivity.class);
             recipeStepIntent.putParcelableArrayListExtra(RECIPE_STEP_KEY, new ArrayList<>(Arrays.asList(clickedRecipeSteps)));
             recipeStepIntent.putExtra(CLICKED_RECIPE_STEP_KEY, clickedPosition);

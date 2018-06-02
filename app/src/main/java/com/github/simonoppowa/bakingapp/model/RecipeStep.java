@@ -81,6 +81,8 @@ public class RecipeStep implements Parcelable{
         parcel.writeString(thumbnailURL);
     }
 
+
+
     public static final  Parcelable.Creator<RecipeStep> CREATOR = new Parcelable.Creator<RecipeStep>() {
 
         @Override

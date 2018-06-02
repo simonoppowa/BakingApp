@@ -123,6 +123,8 @@ public class Recipe implements Parcelable{
         parcel.writeString(imagePath);
     }
 
+
+
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
 
         @Override

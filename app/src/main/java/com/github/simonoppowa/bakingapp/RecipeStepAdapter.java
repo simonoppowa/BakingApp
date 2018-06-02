@@ -76,6 +76,7 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(holder.recipeStepImageView);
         } else {
+            //no image was loaded
             holder.recipeStepImageView.setImageResource(R.drawable.default_recipe_image);
         }
     }

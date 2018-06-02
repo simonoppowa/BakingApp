@@ -62,6 +62,8 @@ public class Ingredient implements Parcelable{
         parcel.writeString(ingredientName);
     }
 
+
+
     public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>() {
 
         @Override

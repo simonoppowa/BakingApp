@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //show errorSnackbar
+                //showing errorSnackbar
                 Snackbar errorSnackbar = Snackbar.make(mRecipeRecyclerView, getString(R.string.no_connection_error_message), Snackbar.LENGTH_INDEFINITE);
                 errorSnackbar.setAction("RETRY", new View.OnClickListener() {
                     @Override
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     }
 
     private void showContent() {
-        //setting idling
+        //setting idlingResource
         if (mIdlingResource != null) {
             mIdlingResource.setIdleState(true);
         }
@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
             RemoteViews views = new RemoteViews(getPackageName(), R.layout.ingredients_widget);
 
+            //setting recipe text to views
             views.setTextViewText(R.id.recipe_widget_title_textView, clickedRecipe.getName());
 
             views.setTextViewText(R.id.recipe_widget_ingredients_textView, clickedRecipe.getIngredientNamesListString());

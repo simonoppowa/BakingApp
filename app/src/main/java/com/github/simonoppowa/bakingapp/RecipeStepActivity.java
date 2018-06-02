@@ -55,6 +55,7 @@ public class RecipeStepActivity extends AppCompatActivity {
             throw new NullPointerException("No RecipeSteps were passed to RecipeStepActivity");
         }
 
+        //setting up ViewPager
         mRecipeStepViewPager.setAdapter(new RecipeStepPagerAdapter(getSupportFragmentManager()));
         mRecipeStepViewPager.setOffscreenPageLimit(1);
         mRecipeStepViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -77,6 +78,8 @@ public class RecipeStepActivity extends AppCompatActivity {
         mRecipeStepViewPager.setCurrentItem(mClickedRecipeStep);
 
     }
+
+
 
     public class RecipeStepPagerAdapter extends FragmentPagerAdapter {
 

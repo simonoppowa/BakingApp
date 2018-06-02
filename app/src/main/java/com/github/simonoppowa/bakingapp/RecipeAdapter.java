@@ -20,7 +20,8 @@ import butterknife.ButterKnife;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
-    private static final String[] IMAGE_RESOURCE_STRINGS = new String[] {"recipe_image_url1", "recipe_image_url2", "recipe_image_url3", "recipe_image_url4", "recipe_image_ur5"};
+    private static final String[] IMAGE_RESOURCE_STRINGS = new String[] {"recipe_image_url1", "recipe_image_url2",
+            "recipe_image_url3", "recipe_image_url4", "recipe_image_ur5"};
     private static final int NUMBER_IMAGE_URLS = IMAGE_RESOURCE_STRINGS.length;
 
     private final Context context;
@@ -57,7 +58,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.recipeTitleTextView.setText(mRecipeList.get(position).getName());
 
-        //choosing image url
+        //choosing url from random image
         int imageNum = position%NUMBER_IMAGE_URLS;
         int resId = context.getResources().getIdentifier(IMAGE_RESOURCE_STRINGS[imageNum], "string", context.getPackageName());
 

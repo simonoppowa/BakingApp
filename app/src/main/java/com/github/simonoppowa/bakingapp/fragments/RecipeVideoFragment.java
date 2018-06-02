@@ -114,7 +114,7 @@ public class RecipeVideoFragment extends Fragment {
                 Util.getUserAgent(mContext, "BakingApp"),
                 (TransferListener<? super DataSource>) mBandwidthMeter);
 
-        setUpExoPlayer();
+        setupExoPlayer();
 
         mDefaultRecipeStepImage.setVisibility(View.GONE);
         mSimpleExoPlayerView.setVisibility(View.VISIBLE);
@@ -126,7 +126,7 @@ public class RecipeVideoFragment extends Fragment {
         mDefaultRecipeStepImage.setVisibility(View.VISIBLE);
     }
 
-    private void setUpExoPlayer() {
+    private void setupExoPlayer() {
 
         mSimpleExoPlayerView.requestFocus();
 

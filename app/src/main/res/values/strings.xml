@@ -6,7 +6,6 @@
     <!--Error messages-->
     <string name="no_connection_error_message">No connection to server</string>
 
-
     <!--Accessibility-->
     <string name="recipe_image">Recipe image</string>
     <string name="thumbnail_image">Video thumbnail</string>
