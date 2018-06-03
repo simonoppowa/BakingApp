@@ -21,4 +21,4 @@ __All images from [Pexels.com](https://www.pexels.com) [CC0 License]__
 * [Image 2](https://www.pexels.com/photo/pizza-kitchen-recipe-rolling-pin-9510/)
 * [Image 3](https://www.pexels.com/photo/pizza-kitchen-recipe-rolling-pin-9510/)
 * [Image 4](https://www.pexels.com/photo/baked-pies-and-breads-873653/)
-* [Image5](https://www.pexels.com/photo/baked-bakery-baking-bread-230743/)
+* [Image 5](https://www.pexels.com/photo/baked-bakery-baking-bread-230743/)

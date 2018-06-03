@@ -58,20 +58,28 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
 
         //checking if Tablet layout
         if(findViewById(R.id.recipe_video_step_container) != null) {
+            //checking for rotation
+            if(savedInstanceState == null) {
+                //getting default RecipeStep
+                RecipeStep defaultRecipeStep = mRecipe.getRecipeSteps()[0];
 
-            //getting default RecipeStep
-            RecipeStep defaultRecipeStep = mRecipe.getRecipeSteps()[0];
+                //setting up RecipeVideoFragment
+                RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
+                bundle = new Bundle();
+                bundle.putParcelable(RECIPE_STEP_KEY, defaultRecipeStep);
+                recipeVideoFragment.setArguments(bundle);
 
-            //setting up RecipeVideoFragment
-            RecipeVideoFragment recipeVideoFragment = new RecipeVideoFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(RECIPE_STEP_KEY, defaultRecipeStep);
-            recipeVideoFragment.setArguments(bundle);
-
-            //replacing FrameLayoutContainer with RecipeVideoFragment
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_video_step_container, recipeVideoFragment)
-                    .commit();
+                //replacing FrameLayoutContainer with RecipeVideoFragment
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.recipe_video_step_container, recipeVideoFragment)
+                        .commit();
+            } else {
+                //replacing the container with restored RecipeVideoFragment
+                RecipeVideoFragment recipeVideoFragment = (RecipeVideoFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_video_step_container);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.recipe_video_step_container, recipeVideoFragment)
+                        .commit();
+            }
         }
     }
 

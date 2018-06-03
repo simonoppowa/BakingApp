@@ -39,6 +39,8 @@ import timber.log.Timber;
 public class RecipeVideoFragment extends Fragment {
 
     public static final String RECIPE_STEP_KEY  = "recipeStep";
+    private static final String PLAYER_POSITION_KEY = "playerPosition";
+    private static final String PLAYER_IS_PLAY_WHEN_READY = "isPlayWhenReady";
     private static final boolean SHOULD_AUTO_PLAY = false;
 
     private SimpleExoPlayer mSimpleExoPlayer;
@@ -90,6 +92,17 @@ public class RecipeVideoFragment extends Fragment {
             showVideoPlayer();
         } else {
             showDefaultImage();
+        }
+
+        //checking for rotation
+        if(savedInstanceState != null && savedInstanceState.containsKey(PLAYER_POSITION_KEY)
+                && savedInstanceState.containsKey(PLAYER_IS_PLAY_WHEN_READY)) {
+            //restoring video position before rotation
+            long restoredPlayerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY);
+            mSimpleExoPlayer.seekTo(restoredPlayerPosition);
+            //restoring video play state before rotation
+            boolean restoredIsPlayWhenReady = savedInstanceState.getBoolean(PLAYER_IS_PLAY_WHEN_READY);
+            mSimpleExoPlayer.setPlayWhenReady(restoredIsPlayWhenReady);
         }
 
         return view;
@@ -163,7 +176,17 @@ public class RecipeVideoFragment extends Fragment {
     public void pausePlayer() {
         if(mSimpleExoPlayer != null) {
             mSimpleExoPlayer.setPlayWhenReady(false);
-            mSimpleExoPlayer.getPlaybackState();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mSimpleExoPlayer != null) {
+            long playerPosition = mSimpleExoPlayer.getCurrentPosition();
+            boolean isPlayWhenReady = mSimpleExoPlayer.getPlayWhenReady();
+            outState.putLong(PLAYER_POSITION_KEY, playerPosition);
+            outState.putBoolean(PLAYER_IS_PLAY_WHEN_READY, isPlayWhenReady);
         }
     }
 
