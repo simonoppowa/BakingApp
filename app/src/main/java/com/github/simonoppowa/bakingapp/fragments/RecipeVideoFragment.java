@@ -62,11 +62,16 @@ public class RecipeVideoFragment extends Fragment {
 
     private Context mContext;
 
+    private long mPlayerPosition;
+    private boolean mIsPlayWhenReady;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_video, container, false);
+
+        mPlayerPosition = 0;
+        mIsPlayWhenReady = false;
 
         //setting up Libraries
         Timber.plant(new Timber.DebugTree());
@@ -87,25 +92,31 @@ public class RecipeVideoFragment extends Fragment {
             mDescriptionTextView.setText(mRecipeStep.getDescription());
         }
 
-        //checking if video available
-        if(mRecipeStep.getVideoURL() != null && !mRecipeStep.getVideoURL().isEmpty()) {
-            showVideoPlayer();
-        } else {
-            showDefaultImage();
-        }
-
         //checking for rotation
         if(savedInstanceState != null && savedInstanceState.containsKey(PLAYER_POSITION_KEY)
                 && savedInstanceState.containsKey(PLAYER_IS_PLAY_WHEN_READY)) {
             //restoring video position before rotation
-            long restoredPlayerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY);
-            mSimpleExoPlayer.seekTo(restoredPlayerPosition);
+            mPlayerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY);
             //restoring video play state before rotation
-            boolean restoredIsPlayWhenReady = savedInstanceState.getBoolean(PLAYER_IS_PLAY_WHEN_READY);
-            mSimpleExoPlayer.setPlayWhenReady(restoredIsPlayWhenReady);
+            mIsPlayWhenReady = savedInstanceState.getBoolean(PLAYER_IS_PLAY_WHEN_READY);
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //checking if video available
+        if(mRecipeStep.getVideoURL() != null && !mRecipeStep.getVideoURL().isEmpty()) {
+            setupExoPlayer();
+            //set restored values
+            mSimpleExoPlayer.seekTo(mPlayerPosition);
+            mSimpleExoPlayer.setPlayWhenReady(mIsPlayWhenReady);
+            showVideoPlayer();
+        } else {
+            showDefaultImage();
+        }
     }
 
     public static RecipeVideoFragment newInstance(RecipeStep recipeStep) {
@@ -120,18 +131,8 @@ public class RecipeVideoFragment extends Fragment {
     }
 
     private void showVideoPlayer() {
-
-        //setting up Player
-        mBandwidthMeter = new DefaultBandwidthMeter();
-        mMediaDataSourceFactor = new DefaultDataSourceFactory(mContext,
-                Util.getUserAgent(mContext, "BakingApp"),
-                (TransferListener<? super DataSource>) mBandwidthMeter);
-
-        setupExoPlayer();
-
         mDefaultRecipeStepImage.setVisibility(View.GONE);
         mSimpleExoPlayerView.setVisibility(View.VISIBLE);
-
     }
 
     private void showDefaultImage() {
@@ -140,36 +141,46 @@ public class RecipeVideoFragment extends Fragment {
     }
 
     private void setupExoPlayer() {
+        if(mSimpleExoPlayer == null) {
+            Timber.d("Setting up Player");
+            mSimpleExoPlayerView.requestFocus();
 
-        mSimpleExoPlayerView.requestFocus();
+            mBandwidthMeter = new DefaultBandwidthMeter();
+            mMediaDataSourceFactor = new DefaultDataSourceFactory(mContext,
+                    Util.getUserAgent(mContext, "BakingApp"),
+                    (TransferListener<? super DataSource>) mBandwidthMeter);
 
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveVideoTrackSelection.Factory(mBandwidthMeter);
+            TrackSelection.Factory videoTrackSelectionFactory =
+                    new AdaptiveVideoTrackSelection.Factory(mBandwidthMeter);
 
-        mTrackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+            mTrackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
-        mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, mTrackSelector, new DefaultLoadControl());
+            mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(mContext, mTrackSelector, new DefaultLoadControl());
 
-        mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
+            mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
 
-        mSimpleExoPlayer.setPlayWhenReady(SHOULD_AUTO_PLAY);
+            mSimpleExoPlayer.setPlayWhenReady(SHOULD_AUTO_PLAY);
 
-        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+            DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mRecipeStep.getVideoURL()),
-                mMediaDataSourceFactor,
-                extractorsFactory,
-                null,
-                null);
+            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mRecipeStep.getVideoURL()),
+                    mMediaDataSourceFactor,
+                    extractorsFactory,
+                    null,
+                    null);
 
-        mSimpleExoPlayer.prepare(mediaSource);
-
+            mSimpleExoPlayer.prepare(mediaSource);
+        }
     }
+
     public void releasePlayer() {
         if(mSimpleExoPlayer != null) {
+            Timber.d("Releasing player");
             mSimpleExoPlayer.stop();
             mSimpleExoPlayer.release();
             mSimpleExoPlayer = null;
+            mTrackSelector = null;
+            mMediaDataSourceFactor = null;
         }
     }
 
@@ -183,6 +194,7 @@ public class RecipeVideoFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if(mSimpleExoPlayer != null) {
+            //save player position and player state in Bundle
             long playerPosition = mSimpleExoPlayer.getCurrentPosition();
             boolean isPlayWhenReady = mSimpleExoPlayer.getPlayWhenReady();
             outState.putLong(PLAYER_POSITION_KEY, playerPosition);
@@ -191,8 +203,19 @@ public class RecipeVideoFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if(mSimpleExoPlayer != null) {
+            //saving position and play state
+            mPlayerPosition = mSimpleExoPlayer.getCurrentPosition();
+            mIsPlayWhenReady = mSimpleExoPlayer.getPlayWhenReady();
+            releasePlayer();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-            releasePlayer();
+        releasePlayer();
     }
 }

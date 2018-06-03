@@ -74,10 +74,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeStepAdapt
                         .add(R.id.recipe_video_step_container, recipeVideoFragment)
                         .commit();
             } else {
-                //replacing the container with restored RecipeVideoFragment
+                //replacing the FrameLayoutContainer with restored RecipeVideoFragment
                 RecipeVideoFragment recipeVideoFragment = (RecipeVideoFragment) getSupportFragmentManager().findFragmentById(R.id.recipe_video_step_container);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.recipe_video_step_container, recipeVideoFragment)
+                        .replace(R.id.recipe_video_step_container, recipeVideoFragment)
                         .commit();
             }
         }
