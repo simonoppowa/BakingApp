@@ -1,5 +1,6 @@
 package com.github.simonoppowa.bakingapp;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -58,16 +59,27 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.recipeTitleTextView.setText(mRecipeList.get(position).getName());
 
-        //choosing url from random image
-        int imageNum = position%NUMBER_IMAGE_URLS;
-        int resId = context.getResources().getIdentifier(IMAGE_RESOURCE_STRINGS[imageNum], "string", context.getPackageName());
+        Recipe selectedRecipe = mRecipeList.get(position);
 
-        Picasso.with(context)
-                .load(context.getString(resId))
-                .noPlaceholder()
-                .error(R.drawable.default_recipe_image)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(holder.recipeImageView);
+        //checking if imagePath is available
+        if(selectedRecipe.getImagePath() != null) {
+            Picasso.with(context)
+                    .load(selectedRecipe.getImagePath())
+                    .noPlaceholder()
+                    .error(R.drawable.default_recipe_image)
+                    .into(holder.recipeImageView);
+        } else {
+            //choosing url from random image
+            int imageNum = position%NUMBER_IMAGE_URLS;
+            int resId = context.getResources().getIdentifier(IMAGE_RESOURCE_STRINGS[imageNum], "string", context.getPackageName());
+
+            Picasso.with(context)
+                    .load(context.getString(resId))
+                    .noPlaceholder()
+                    .error(R.drawable.default_recipe_image)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .into(holder.recipeImageView);
+        }
     }
 
     @Override
